@@ -18,7 +18,7 @@ class Model
     {
         if (!empty($this->mandatory_fields)) {
             foreach ($this->mandatory_fields as $mandatory_field) {
-                if (!is_null($this->$mandatory_field)) {
+                if (is_null($this->$mandatory_field)) {
                     throw new Exception('Required ' . $mandatory_field . ' for ' . get_called_class());
                 }
             }
