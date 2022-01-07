@@ -76,7 +76,7 @@ class Api
      */
     public function toJson(object $Class): string
     {
-        $json = json_encode(array_filter(call_user_func('get_object_vars', $Class), function ($value) {
+        $json = json_encode(array_filter(get_object_vars($Class), function ($value) {
             return !is_null($value);
         }));
 
