@@ -436,14 +436,14 @@ class Asset extends Model
      */
     public $usage;
 
-//    /**
-//     * @var string[]
-//     */
-//    protected $mandatory_fields = [
-//        'area',
-//        'id',
-//        'lat',
-//        'lon',
-//        'portfolio_id',
-//    ];
+    /**
+     * @var string[]
+     */
+    protected $mandatory_fields = [
+        'area',
+        'id',
+        'lat',
+        'lon',
+        'portfolio_id',
+    ];
 }
