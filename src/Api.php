@@ -3,6 +3,7 @@
 namespace UrbanDataAnalytics;
 
 use Exception;
+use stdClass;
 
 class Api
 {
@@ -10,19 +11,20 @@ class Api
     public $authorization_token = '';
 
     // Registry
-    private $call_url;
-    private $post_data;
-    private $raw_response;
-    private $info;
+    public $call_url;
+    public $post_data;
+    public $raw_response;
+    public $info;
 
     /**
      * @param Asset $Asset
      * @param int $portfolio_id
      * @param Indicator[]|null $Indicators
      * @param null $price_type
+     * @return Valuation
      * @throws Exception
      */
-    public function valuation(Asset $Asset, int $portfolio_id, array $Indicators = null, $price_type = null)
+    public function valuation(Asset $Asset, $portfolio_id, array $Indicators = null, $price_type = null)
     {
         if (empty($portfolio_id)) {
             throw new Exception('Portfolio_id is mandatory');
@@ -61,12 +63,50 @@ class Api
         $Asset->validates();
         $json = $this->toJson($Asset);
 
-        $this->post($url, $query_parameters, $json);
+        $response = $this->post($url, $query_parameters, $json);
 
-        echo $this->call_url . PHP_EOL;
-        echo $this->post_data . PHP_EOL;
-        echo $this->raw_response . PHP_EOL;
-        echo json_encode($this->info) . PHP_EOL;
+        if (!empty($response->error)) {
+            throw new Exception('Valuation Error: ' . $response->error->detail);
+        }
+
+        $Valuation = new Valuation();
+        $Valuation->id = $response->id;
+
+        if (!empty($response->competitors)) {
+            foreach ($response->competitors as $competitor) {
+                $Competitor = new Competitor();
+
+                foreach ($competitor as $key => $value) {
+                    $Competitor->$key = $value;
+                }
+
+                $Valuation->competitors[] = $Competitor;
+            }
+        }
+
+        if (!empty($response->indicators)) {
+            foreach ($response->indicators as $indicator) {
+                $Indicator = new Indicator();
+
+                foreach ($indicator as $key => $value) {
+                    $Indicator->$key = $value;
+                }
+
+                $Valuation->indicators[] = $Indicator;
+            }
+        }
+
+        $Asset = new Asset();
+
+        foreach ($response->attributes as $key => $value) {
+            $Asset->$key = $value;
+        }
+
+        $Valuation->attributes = $Asset;
+        $Valuation->best_score = $response->best_score;
+        $Valuation->forecast = $response->forecast;
+
+        return $Valuation;
     }
 
     /**
@@ -74,7 +114,7 @@ class Api
      * @return string
      * @throws Exception
      */
-    public function toJson(object $Class): string
+    public function toJson($Class)
     {
         $json = json_encode(array_filter(get_object_vars($Class), function ($value) {
             return !is_null($value);
@@ -91,7 +131,7 @@ class Api
      * @param string $url
      * @param array $query_parameters
      * @param array $post_data
-     * @return bool|string
+     * @return stdClass
      * @throws Exception
      */
     private function post($url, $query_parameters = [], $post_data = null)
@@ -144,6 +184,65 @@ class Api
             throw new Exception('cURL error (' . $error_number . '):' . PHP_EOL . curl_strerror($error_number));
         }
 
-        return $this->raw_response;
+        $this->checkHttpResponse();
+
+        $response = json_decode($this->raw_response);
+
+        if (json_last_error() != JSON_ERROR_NONE) {
+            throw new Exception('Error encoding response JSON ' . json_last_error_msg());
+        }
+
+        return $response;
+    }
+
+    /**
+     * HTTP Responses
+     *
+     * HTTP status depend on the result of the operation:
+     * - 200 OK: the operation was successful. Content in response’s body is expected.
+     * - 201 Created: the operation was successful and the resource was created.
+     * - 204 No Content: the operation was successful. Content in response’s body is not expected.
+     * - 400 Bad Request: some parameters in the request are not valid.
+     * - 401 Unauthorized: the token is not valid (see authentication section)
+     * - 404 Not Found: the resource doesn’t exist.
+     * - 429 Too Many Requests: the quota associated to the resource is exhausted (see quotas section).
+     * - 500 Internal Server Error: an unexpected error occurred. We monitor our systems using [Sentry](https://sentry.io/] so there’s a big change that we already received the notification with your error. Anyway, don’t hesitate to contact to support sending the request that produces the error.
+     * @throws Exception
+     */
+    private function checkHttpResponse()
+    {
+        switch ($this->info['http_code']) {
+            case 200:
+            case 201:
+                break;
+
+            case 204:
+                $msg = 'No Content';
+                throw new Exception('HTTP Response (' . $this->info['http_code'] . '):' . PHP_EOL . $msg);
+
+            case 400:
+                $msg = 'Bad Request';
+                throw new Exception('HTTP Response (' . $this->info['http_code'] . '):' . PHP_EOL . $msg);
+
+            case 401:
+                $msg = 'Unauthorized';
+                throw new Exception('HTTP Response (' . $this->info['http_code'] . '):' . PHP_EOL . $msg);
+
+            case 404:
+                $msg = 'Not Found';
+                throw new Exception('HTTP Response (' . $this->info['http_code'] . '):' . PHP_EOL . $msg);
+
+            case 429:
+                $msg = 'Too Many Requests';
+                throw new Exception('HTTP Response (' . $this->info['http_code'] . '):' . PHP_EOL . $msg);
+
+            case 500:
+                $msg = 'Internal Server Error';
+                throw new Exception('HTTP Response (' . $this->info['http_code'] . '):' . PHP_EOL . $msg);
+
+            default:
+                $msg = 'Unexpected HTTP code';
+                throw new Exception('HTTP Response (' . $this->info['http_code'] . '):' . PHP_EOL . $msg);
+        }
     }
 }

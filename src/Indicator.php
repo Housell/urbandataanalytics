@@ -104,9 +104,24 @@ namespace UrbanDataAnalytics;
  */
 class Indicator extends Model
 {
+    /**
+     * @var string
+     */
     public $indicator;
+
+    /**
+     * @var number
+     */
     public $admin_level;
+
+    /**
+     * @var string
+     */
     public $taxonomy;
+
+    /**
+     * @var string
+     */
     public $period;
 
     protected $mandatory_fields = [
