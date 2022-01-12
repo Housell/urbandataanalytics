@@ -203,8 +203,8 @@ class Asset extends Model
     // furnished
     const FURNISHED_UNKNOWN = 0;
     const FURNISHED_UNFURNISHED = 1;
-    const FURNISHED_Partly_FURNISHED = 2;
-    const FURNISHED_Fully_FURNISHED = 3;
+    const FURNISHED_PARTLY_FURNISHED = 2;
+    const FURNISHED_FULLY_FURNISHED = 3;
 
     /**
      * @var bool
@@ -441,7 +441,6 @@ class Asset extends Model
      */
     protected $mandatory_fields = [
         'area',
-        'id',
         'lat',
         'lon',
         'portfolio_id',
