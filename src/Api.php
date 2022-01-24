@@ -42,7 +42,7 @@ class Api
                 }
 
                 $Indicator->validates();
-                $indicator = $this->toJson($Indicator);
+                $indicator = self::toJson($Indicator);
                 $indicators[] = $indicator;
             }
 
@@ -61,7 +61,7 @@ class Api
 
 
         $Asset->validates();
-        $json = $this->toJson($Asset);
+        $json = self::toJson($Asset);
 
         $response = $this->post($url, $query_parameters, $json);
 
@@ -114,7 +114,7 @@ class Api
      * @return string
      * @throws Exception
      */
-    public function toJson($Class)
+    public static function toJson($Class)
     {
         $json = json_encode(array_filter(get_object_vars($Class), function ($value) {
             return !is_null($value);
