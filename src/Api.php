@@ -64,7 +64,13 @@ class Api
         $response = $this->post($url, $query_parameters, (string)$Asset);
 
         if (!empty($response->error)) {
-            throw new Exception('Valuation Error: ' . $response->error->detail);
+            $message = $response->error->title . ': ' . $response->error->detail . PHP_EOL;
+
+            foreach ($response->errors as $field => $error) {
+                $message .= ' - ' . $field . ': ' . $error . PHP_EOL;
+            }
+
+            throw new Exception($message);
         }
 
         $Valuation = new Valuation();
