@@ -42,8 +42,7 @@ class Api
                 }
 
                 $Indicator->validates();
-                $indicator = self::toJson($Indicator);
-                $indicators[] = $indicator;
+                $indicators[] = $Indicator;
             }
 
             if (!empty($indicators)) {
@@ -61,9 +60,8 @@ class Api
 
 
         $Asset->validates();
-        $json = self::toJson($Asset);
 
-        $response = $this->post($url, $query_parameters, $json);
+        $response = $this->post($url, $query_parameters, (string)$Asset);
 
         if (!empty($response->error)) {
             throw new Exception('Valuation Error: ' . $response->error->detail);
@@ -107,24 +105,6 @@ class Api
         $Valuation->forecast = $response->forecast;
 
         return $Valuation;
-    }
-
-    /**
-     * @param object $Class
-     * @return string
-     * @throws Exception
-     */
-    public static function toJson($Class)
-    {
-        $json = json_encode(array_filter(get_object_vars($Class), function ($value) {
-            return !is_null($value);
-        }));
-
-        if (json_last_error() != JSON_ERROR_NONE) {
-            throw new Exception('Error encoding JSON ' . json_last_error_msg());
-        }
-
-        return $json;
     }
 
     /**

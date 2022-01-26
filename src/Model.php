@@ -3,6 +3,8 @@
 namespace UrbanDataAnalytics;
 
 use Exception;
+use ReflectionClass;
+use ReflectionProperty;
 
 class Model
 {
@@ -23,5 +25,27 @@ class Model
                 }
             }
         }
+    }
+
+    /**
+     * Retrieve the object as a JSON serialized string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        $ReflectionClass = new ReflectionClass($this);
+
+        $properties = [];
+
+        foreach ($ReflectionClass->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
+            $properties[$property->getName()] = $property->getValue($this);
+        }
+
+        $properties = array_filter($properties, function ($value) {
+            return !is_null($value);
+        });
+
+        return json_encode($properties);
     }
 }
