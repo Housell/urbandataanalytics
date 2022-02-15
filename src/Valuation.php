@@ -10,7 +10,7 @@ class Valuation extends Model
     public $competitors;
 
     /**
-     * @var Indicator[]
+     * @var array
      */
     public $indicators;
 
@@ -18,6 +18,10 @@ class Valuation extends Model
      * @var Asset
      */
     public $attributes;
+
+    /**
+     * @var array
+     */
     public $best_score;
 
     /* @var int */

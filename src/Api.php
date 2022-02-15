@@ -46,7 +46,7 @@ class Api
             }
 
             if (!empty($indicators)) {
-                $query_parameters['indicators'] = $indicators;
+                $query_parameters['indicators'] = '[' . implode(',', $indicators) . ']';
             }
         }
 
@@ -66,8 +66,10 @@ class Api
         if (!empty($response->error)) {
             $message = $response->error->title . ': ' . $response->error->detail . PHP_EOL;
 
-            foreach ($response->error->errors as $field => $errors) {
-                $message .= ' - ' . $field . ': ' . implode(', ', $errors) . PHP_EOL;
+            if (isset($response->error->errors)) {
+                foreach ($response->error->errors as $field => $errors) {
+                    $message .= ' - ' . $field . ': ' . implode(', ', $errors) . PHP_EOL;
+                }
             }
 
             throw new Exception($message);
@@ -89,14 +91,8 @@ class Api
         }
 
         if (!empty($response->indicators)) {
-            foreach ($response->indicators as $indicator) {
-                $Indicator = new Indicator();
-
-                foreach ($indicator as $key => $value) {
-                    $Indicator->$key = $value;
-                }
-
-                $Valuation->indicators[] = $Indicator;
+            foreach ($response->indicators as $position => $value) {
+                $Valuation->indicators[$Indicators[$position]->indicator] = $value;
             }
         }
 
@@ -137,12 +133,12 @@ class Api
 
             foreach ($query_parameters as $key => $value) {
                 $vars[] = implode('=', [
-                    $key,
-                    $value
+                    urlencode($key),
+                    urlencode($value)
                 ]);
             }
 
-            $this->call_url .= '?' . urlencode(implode('&', $vars));
+            $this->call_url .= '?' . implode('&', $vars);
         }
 
 
