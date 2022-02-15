@@ -104,6 +104,33 @@ namespace UrbanDataAnalytics;
  */
 class Indicator extends Model
 {
+    // indicators
+    const SALE_RENT_PERCENT = 's_p';
+    const SALE_RENT_UNITS = 's_u';
+    const SALE_RENT_DIFF_PREV_Q_PERCENT = 's_u_qq';
+    const SALE_RENT_DIFF_PREV_Q_PERCENTILE = 's_u_qq_rk';
+    const SOLD_RENTED_DIFF_PREV_Q_PERCENT = 'o_u_qq';
+    const SOLD_RENTED_DIFF_PREV_Q_PERCENTILE = 'o_u_qq_rk';
+    const NEW_STOCK_DIFF_PREV_Q_PERCENTILE = 'i_u_qq_rk';
+    const TOTAL_ABSORPTION_RATIO_PERCENT = 'o_a';
+    const AVG_PRICE = 'o_pm';
+    const AVG_PRICE_PER_METER = 'o_pu';
+    const AVG_PRICE_PRE_METER_DIFF_PREV_Q_PERCENT = 'o_pu_qq';
+    const ESTIMATED_TIME_TO_SELL_RENT = 's_t';
+    const ESTIMATED_TIME_TO_SELL_RENT_DIFF_PREV_Q_PERCENT = 's_t_qq';
+    const GROSS_RENT_PROFITABILITY = 'y_r';
+    const GROSS_SALE_PROFITABILITY = 'y_s';
+    const INVESTMENT_INDICATOR = 'r_g';
+    const NEGOTIATION_FACTOR = 's_fn';
+
+    // admin_levels
+    const ADMIN_LEVEL_COUNTRY = 0;
+    const ADMIN_LEVEL_STATE = 1;
+    const ADMIN_LEVEL_PROVINCE = 2;
+    const ADMIN_LEVEL_CITY = 3;
+    const ADMIN_LEVEL_DISTRICT = 4;
+    const ADMIN_LEVEL_NEIGHBORHOOD = 5;
+
     /**
      * @var string
      */
