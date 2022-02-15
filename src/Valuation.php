@@ -4,27 +4,21 @@ namespace UrbanDataAnalytics;
 
 class Valuation extends Model
 {
-    /**
-     * @var Competitor[]
-     */
+    /* @var Competitor[] */
     public $competitors;
 
-    /**
-     * @var array
-     */
+    /* @var array */
     public $indicators;
 
-    /**
-     * @var Asset
-     */
+    /* @var Asset */
     public $attributes;
 
-    /**
-     * @var array
-     */
+    /* @var object */
     public $best_score;
 
     /* @var int */
     public $id;
+
+    /* @var object */
     public $forecast;
 }

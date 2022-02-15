@@ -131,24 +131,16 @@ class Indicator extends Model
     const ADMIN_LEVEL_DISTRICT = 4;
     const ADMIN_LEVEL_NEIGHBORHOOD = 5;
 
-    /**
-     * @var string
-     */
+    /* @var string */
     public $indicator;
 
-    /**
-     * @var number
-     */
+    /* @var number */
     public $admin_level;
 
-    /**
-     * @var string
-     */
+    /* @var string */
     public $taxonomy;
 
-    /**
-     * @var string
-     */
+    /* @var string */
     public $period;
 
     protected $mandatory_fields = [

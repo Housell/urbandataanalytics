@@ -206,239 +206,145 @@ class Asset extends Model
     const FURNISHED_PARTLY_FURNISHED = 2;
     const FURNISHED_FULLY_FURNISHED = 3;
 
-    /**
-     * @var bool
-     */
+    /* @var bool */
     public $ac;
 
-    /**
-     * @var string
-     */
+    /* @var string */
     public $address;
 
-    /**
-     * @var bool
-     */
+    /* @var bool */
     public $agency;
 
-    /**
-     * @var int
-     */
+    /* @var int */
     public $area;
 
-    /**
-     * @var string JSON value
-     */
+    /* @var string JSON value */
     public $avm;
 
-    /**
-     * @var int
-     */
+    /* @var int */
     public $bathrooms;
 
-    /**
-     * @var int
-     */
+    /* @var int */
     public $boundary_id;
 
-    /**
-     * @var string
-     */
+    /* @var string */
     public $boundary_code;
 
-    /**
-     * @var bool
-     */
+    /* @var bool */
     public $common_zones;
 
-    /**
-     * @var string GeoJSON
-     */
+    /* @var string GeoJSON */
     public $competitors_geom;
 
-    /**
-     * @var string Date YYYY-MM-DD HH:MM:SS
-     */
+    /* @var string Date YYYY-MM-DD HH:MM:SS */
     public $date_in;
 
-    /**
-     * @var string Date YYYY-MM-DD HH:MM:SS
-     */
+    /* @var string Date YYYY-MM-DD HH:MM:SS */
     public $date_out;
 
-    /**
-     * @var int
-     */
+    /* @var int */
     public $construction_type;
 
-    /**
-     * @var string JSON
-     */
+    /* @var string JSON */
     public $custom_attrs;
 
-    /**
-     * @var bool
-     */
+    /* @var bool */
     public $elevator;
 
-    /**
-     * @var int
-     */
+    /* @var int */
     public $energy_cert;
 
-    /**
-     * @var string
-     */
+    /* @var string */
     public $external_id;
 
-    /**
-     * @var string Decimal
-     */
+    /* @var string Decimal */
     public $floor;
 
-    /**
-     * @var int
-     */
+    /* @var int */
     public $furnished;
 
-    /**
-     * @var bool
-     */
+    /* @var bool */
     public $garage;
 
-    /**
-     * @var bool
-     */
+    /* @var bool */
     public $gymn;
 
-    /**
-     * @var int
-     */
+    /* @var int */
     public $id;
 
-    /**
-     * @var float Decimal
-     */
+    /* @var float Decimal */
     public $lat;
 
-    /**
-     * @var float Decimal
-     */
+    /* @var float Decimal */
     public $lon;
 
-    /**
-     * @var string
-     */
+    /* @var string */
     public $notes;
 
-    /**
-     * @var int
-     */
+    /* @var int */
     public $operation;
 
-    /**
-     * @var bool
-     */
+    /* @var bool */
     public $orientation_east;
 
-    /**
-     * @var bool
-     */
+    /* @var bool */
     public $orientation_north;
 
-    /**
-     * @var bool
-     */
+    /* @var bool */
     public $orientation_south;
 
-    /**
-     * @var bool
-     */
+    /* @var bool */
     public $orientation_west;
 
-    /**
-     * @var bool
-     */
+    /* @var bool */
     public $outside;
 
-    /**
-     * @var bool
-     */
+    /* @var bool */
     public $pool;
 
-    /**
-     * @var int
-     */
+    /* @var int */
     public $portfolio_id;
 
-    /**
-     * @var int
-     */
+    /* @var int */
     public $price;
 
-    /**
-     * @var int
-     */
+    /* @var int */
     public $price_sale;
 
-    /**
-     * @var int
-     */
+    /* @var int */
     public $price_rent;
 
-    /**
-     * @var int
-     */
+    /* @var int */
     public $property_type;
 
-    /**
-     * @var string
-     */
+    /* @var string */
     public $reference;
 
-    /**
-     * @var string
-     */
+    /* @var string */
     public $report_url;
 
-    /**
-     * @var int
-     */
+    /* @var int */
     public $rooms;
 
-    /**
-     * @var bool
-     */
+    /* @var bool */
     public $simulated;
 
-    /**
-     * @var bool
-     */
+    /* @var bool */
     public $sports_area;
 
-    /**
-     * @var int
-     */
+    /* @var int */
     public $status;
 
-    /**
-     * @var bool
-     */
+    /* @var bool */
     public $storage;
 
-    /**
-     * @var bool
-     */
+    /* @var bool */
     public $terrace;
 
-    /**
-     * @var int
-     */
+    /* @var int */
     public $usage;
 
-    /**
-     * @var string[]
-     */
+    /* @var string[] */
     protected $mandatory_fields = [
         'area',
         'lat',

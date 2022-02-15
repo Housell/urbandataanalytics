@@ -8,9 +8,7 @@ use ReflectionProperty;
 
 class Model
 {
-    /**
-     * @var string[]
-     */
+    /* @var string[] */
     protected $mandatory_fields = [];
 
     /**
