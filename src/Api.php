@@ -42,7 +42,7 @@ class Api
                 }
 
                 $Indicator->validates();
-                $indicators[] = $Indicator;
+                $indicators[] = (string)$Indicator;
             }
 
             if (!empty($indicators)) {
