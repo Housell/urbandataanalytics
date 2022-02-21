@@ -67,8 +67,8 @@ class Api
             $message = $response->error->title . ': ' . $response->error->detail . PHP_EOL;
 
             if (isset($response->error->errors)) {
-                foreach ($response->error->errors as $field => $errors) {
-                    $message .= ' - ' . $field . ': ' . implode(', ', $errors) . PHP_EOL;
+                foreach ($response->error->errors as $field => $error) {
+                    $message .= ' - ' . $field . ': ' . $error . PHP_EOL;
                 }
             }
 
