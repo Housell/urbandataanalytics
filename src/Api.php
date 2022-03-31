@@ -63,17 +63,7 @@ class Api
 
         $response = $this->post($url, $query_parameters, (string)$Asset);
 
-        if (!empty($response->error)) {
-            $message = $response->error->title . ': ' . $response->error->detail . PHP_EOL;
-
-            if (isset($response->error->errors)) {
-                foreach ($response->error->errors as $field => $error) {
-                    $message .= ' - ' . $field . ': ' . $error . PHP_EOL;
-                }
-            }
-
-            throw new Exception($message);
-        }
+        $this->checkErrors($response);
 
         $Valuation = new Valuation();
         $Valuation->id = $response->id;
@@ -225,6 +215,60 @@ class Api
             default:
                 $msg = 'Unexpected HTTP code';
                 throw new Exception('HTTP Response (' . $this->info['http_code'] . '):' . PHP_EOL . $msg);
+        }
+    }
+
+    /**
+     * <code>
+     * {
+     *   "error": {
+     *     "instance": "api-74d95f7476-mdcps.2022-03-04T11:14:49.012229",
+     *     "type": "errors/assets/new-asset-error",
+     *     "detail": "Región no soportada.",
+     *     "title": "9"
+     *   }
+     * }
+     * </code>
+     * <code>
+     * {
+     *   "error": {
+     *     "instance": "api-74d95f7476-28nkg.2022-03-30T14:33:15.322203",
+     *     "errors": [
+     *       {
+     *         "line": 1,
+     *         "message": "El atributo 'reference' debe tener una longitud máxima de 20 posiciones."
+     *       }
+     *     ],
+     *     "title": "preprocessed-with-errors",
+     *     "warnings": [],
+     *     "type": "errors/assets/bad-request",
+     *     "detail": "Preprocessed assets with errors"
+     *   }
+     * }
+     * </code>
+     * @param stdClass $response
+     * @return void
+     * @throws Exception
+     */
+    private function checkErrors(stdClass $response)
+    {
+        if (!empty($response->error)) {
+            $message = '(' . $response->error->type . ') ' . $response->error->instance . ': ' . PHP_EOL;
+            $message .= '- ' . $response->error->title . ': ' . $response->error->detail . PHP_EOL;
+
+            if (isset($response->error->errors)) {
+                foreach ($response->error->errors as $error) {
+                    if (is_string($error)) {
+                        $message .= '-- ' . $error . PHP_EOL;
+                    }
+
+                    if (isset($error->message)) {
+                        $message .= '-- ' . $error->message . (isset($error->line) ? ' in line ' . $error->line : '') . PHP_EOL;
+                    }
+                }
+            }
+
+            throw new Exception($message);
         }
     }
 }
