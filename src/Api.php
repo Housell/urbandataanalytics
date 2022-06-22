@@ -271,4 +271,54 @@ class Api
             throw new Exception($message);
         }
     }
+
+    /**
+     * Mode values:
+     * - local-only: the result is only searched in the uDA’s database. This mode is the fastest one.
+     * - remote-only: The source is the Property Registry Service.
+     * - local-first: first, the reference will be searched in the uDA’s database. If it’s not found, it will get the data from the Property Registry Service.
+     * - remote-first: first, the reference will be searched in the Property Registry Service. If it’s not found or an error occurs it will get the data from the uDA’s database.
+     *
+     * @param string $cadastre_reference
+     * @param string $mode
+     * @return Cadastre
+     * @throws Exception
+     */
+    public function cadastre($cadastre_reference, $mode = null)
+    {
+        if (empty($cadastre_reference)) {
+            throw new Exception('$cadastre_reference is mandatory');
+        }
+
+        if (!is_string($cadastre_reference)) {
+            throw new Exception('$cadastre_reference must be an string');
+        }
+
+        if ($mode && !is_string($mode)) {
+            throw new Exception('$mode must be an string');
+        }
+
+        if ($mode && !in_array($mode, [
+                'local-only',
+                'remote-only',
+                'local-first',
+                'remote-first',
+            ])) {
+            throw new Exception('Invalid value fot $mode');
+        }
+
+        $url = 'https://geo.urbandataanalytics.com/geocoder/api/v1.0/cadastre/' . $cadastre_reference;
+
+        $response = $this->post($url, $mode ? ['mode' => $mode] : null);
+
+        $this->checkErrors($response);
+
+        $Cadastre = new Cadastre();
+
+        foreach ($response->attributes as $key => $value) {
+            $Cadastre->$key = $value;
+        }
+
+        return $Cadastre;
+    }
 }

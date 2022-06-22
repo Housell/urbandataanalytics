@@ -86,7 +86,7 @@ Returns Valuation
 
 # Documentation
 
-## Api::class
+## Api
     // Configuration
     public $authorization_token = '';
 
@@ -105,7 +105,7 @@ To ask for the valuation of an Asset we need to send the asset and the indicator
 * $Indicators (optional) is an array of Indicator objects
 * $price_type (optional) can be "asking"|"closing"
 
-## Model::class
+## Model
 
 Dynamically validates the objects and creates json objects from the public properties on __toString 
 
@@ -120,7 +120,7 @@ Every class has its own constants and public properties
 * Indicator
 * Valuation
 
-### Asset::class
+### Asset
 
 Mandatory properties  'area', 'lat', 'lon' and 'portfolio_id'
 
@@ -317,7 +317,7 @@ Mandatory properties  'area', 'lat', 'lon' and 'portfolio_id'
     /* @var int */
     public $usage;
 
-### Competitor::class
+### Competitor
 
     /* @var string */
     public $admin0;
@@ -361,7 +361,7 @@ Mandatory properties  'area', 'lat', 'lon' and 'portfolio_id'
     /* @var string */
     public $source_url;
 
-### Indicator::class
+### Indicator
 
 Mandatory properties 'indicator' and 'admin_level'
 
@@ -403,3 +403,54 @@ Mandatory properties 'indicator' and 'admin_level'
 
     /* @var string */
     public $period;
+
+### Valuation
+
+    /* @var Competitor[] */
+    public $competitors;
+
+    /* @var array */
+    public $indicators;
+
+    /* @var Asset */
+    public $attributes;
+
+    /* @var object */
+    public $best_score;
+
+    /* @var int */
+    public $id;
+
+    /* @var object */
+    public $forecast;
+
+### Cadastre
+    /* @var string */
+    public $reference;
+
+    /* @var int */
+    public $usage;
+
+    /* @var int */
+    public $area;
+
+    /* @var string */
+    public $address;
+
+    /* @var float */
+    public $lon;
+
+    /* @var float */
+    public $lat;
+
+    /* @var int */
+    public $property_type;
+
+    /* @var string */
+    public $origin;
+
+    /* @var string */
+    public $domain;
+
+    /* @var string */
+    public $payload;
