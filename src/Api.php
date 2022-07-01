@@ -307,7 +307,7 @@ class Api
             throw new Exception('Invalid value fot $mode');
         }
 
-        $url = 'https://geo.urbandataanalytics.com/geocoder/api/v1.0/cadastre/' . $cadastre_reference;
+        $url = 'https://geo.reds.urbandataanalytics.com/geocoder/api/v1.0/cadastre/' . $cadastre_reference;
 
         $response = $this->post($url, $mode ? ['mode' => $mode] : null);
 
