@@ -108,6 +108,18 @@ class Api
      */
     private function post($url, $query_parameters = [], $post_data = null)
     {
+        return $this->call($url, $query_parameters, $post_data);
+    }
+
+    /**
+     * @param string $url
+     * @param array $query_parameters
+     * @param array $post_data
+     * @return stdClass
+     * @throws Exception
+     */
+    private function call($url, $query_parameters = [], $post_data = null)
+    {
         if (!$url) {
             throw new Exception('Endpoint not set');
         }
@@ -137,8 +149,12 @@ class Api
         $curl = curl_init($this->call_url);
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $this->post_data);
+
+        if (!empty($this->post_data)) {
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $this->post_data);
+        }
+
         curl_setopt($curl, CURLOPT_HTTPHEADER, [
             'Authorization: Token ' . $this->authorization_token,
             'Accept: application/json',
@@ -309,16 +325,27 @@ class Api
 
         $url = 'https://geo.reds.urbandataanalytics.com/geocoder/api/v1.0/cadastre/' . $cadastre_reference;
 
-        $response = $this->post($url, $mode ? ['mode' => $mode] : null);
+        $response = $this->get($url, $mode ? ['mode' => $mode] : null);
 
         $this->checkErrors($response);
 
         $Cadastre = new Cadastre();
 
-        foreach ($response->attributes as $key => $value) {
+        foreach ($response as $key => $value) {
             $Cadastre->$key = $value;
         }
 
         return $Cadastre;
+    }
+
+    /**
+     * @param string $url
+     * @param array $query_parameters
+     * @return stdClass
+     * @throws Exception
+     */
+    private function get($url, $query_parameters = [])
+    {
+        return $this->call($url, $query_parameters);
     }
 }
