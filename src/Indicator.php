@@ -101,6 +101,7 @@ namespace UrbanDataAnalytics;
  * | YYYYQn | Quarter | 2017Q2 means the period from 1/Apr/2017 until 30/Jun/2017
  * ---------------------------------------------------------------------------------------------------------------------
  * </code>
+ * @noinspection PhpUnused
  */
 class Indicator extends Model
 {

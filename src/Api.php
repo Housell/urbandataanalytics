@@ -5,6 +5,10 @@ namespace UrbanDataAnalytics;
 use Exception;
 use stdClass;
 
+/**
+ * Main class
+ * @noinspection PhpUnused
+ */
 class Api
 {
     // Configuration
@@ -24,7 +28,7 @@ class Api
      * @return Valuation
      * @throws Exception
      */
-    public function valuation(Asset $Asset, $portfolio_id, array $Indicators = null, $price_type = null)
+    public function valuation(Asset $Asset, int $portfolio_id, array $Indicators = null, $price_type = null): Valuation
     {
         if (empty($portfolio_id)) {
             throw new Exception('Portfolio_id is mandatory');
@@ -102,11 +106,11 @@ class Api
     /**
      * @param string $url
      * @param array $query_parameters
-     * @param array $post_data
+     * @param string|null $post_data
      * @return stdClass
      * @throws Exception
      */
-    private function post($url, $query_parameters = [], $post_data = null)
+    private function post(string $url, array $query_parameters = [], string $post_data = null): stdClass
     {
         return $this->call($url, $query_parameters, $post_data);
     }
@@ -114,11 +118,11 @@ class Api
     /**
      * @param string $url
      * @param array $query_parameters
-     * @param array $post_data
+     * @param string|null $post_data
      * @return stdClass
      * @throws Exception
      */
-    private function call($url, $query_parameters = [], $post_data = null)
+    private function call(string $url, array $query_parameters = [], string $post_data = null): stdClass
     {
         if (!$url) {
             throw new Exception('Endpoint not set');
@@ -186,13 +190,13 @@ class Api
     /**
      * HTTP Responses
      *
-     * HTTP status depend on the result of the operation:
+     * HTTP status depends on the result of the operation:
      * - 200 OK: the operation was successful. Content in response’s body is expected.
      * - 201 Created: the operation was successful and the resource was created.
      * - 204 No Content: the operation was successful. Content in response’s body is not expected.
      * - 400 Bad Request: some parameters in the request are not valid.
      * - 401 Unauthorized: the token is not valid (see authentication section)
-     * - 404 Not Found: the resource doesn’t exist.
+     * - 404 Not Found: the resource doesn't exist.
      * - 429 Too Many Requests: the quota associated to the resource is exhausted (see quotas section).
      * - 500 Internal Server Error: an unexpected error occurred. We monitor our systems using [Sentry](https://sentry.io/] so there’s a big change that we already received the notification with your error. Anyway, don’t hesitate to contact to support sending the request that produces the error.
      * @throws Exception
@@ -293,21 +297,17 @@ class Api
      * - local-only: the result is only searched in the uDA’s database. This mode is the fastest one.
      * - remote-only: The source is the Property Registry Service.
      * - local-first: first, the reference will be searched in the uDA’s database. If it’s not found, it will get the data from the Property Registry Service.
-     * - remote-first: first, the reference will be searched in the Property Registry Service. If it’s not found or an error occurs it will get the data from the uDA’s database.
+     * - remote-first: first, the reference will be searched in the Property Registry Service. If it’s not found or an error occurs, it will get the data from the uDA’s database.
      *
      * @param string $cadastre_reference
-     * @param string $mode
+     * @param string|null $mode
      * @return Cadastre
      * @throws Exception
      */
-    public function cadastre($cadastre_reference, $mode = null)
+    public function cadastre(string $cadastre_reference, string $mode = null): Cadastre
     {
         if (empty($cadastre_reference)) {
             throw new Exception('$cadastre_reference is mandatory');
-        }
-
-        if (!is_string($cadastre_reference)) {
-            throw new Exception('$cadastre_reference must be an string');
         }
 
         if ($mode && !is_string($mode)) {
@@ -323,7 +323,7 @@ class Api
             throw new Exception('Invalid value fot $mode');
         }
 
-        $url = 'https://geo.reds.urbandataanalytics.com/geocoder/api/v1.0/cadastre/' . $cadastre_reference;
+        $url = 'https://geo.reds.urbandataanalytics.com/geocoder/api/v2/cadastre/' . $cadastre_reference;
 
         $response = $this->get($url, $mode ? ['mode' => $mode] : null);
 
@@ -344,7 +344,7 @@ class Api
      * @return stdClass
      * @throws Exception
      */
-    private function get($url, $query_parameters = [])
+    private function get(string $url, array $query_parameters = []): stdClass
     {
         return $this->call($url, $query_parameters);
     }
