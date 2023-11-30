@@ -147,7 +147,7 @@ namespace UrbanDataAnalytics;
  * ---------------------------------------------------------------------------------------------------------------------
  * </code>
  *
- * @noinspection PHPUnused
+ * @noinspection PhpUnused
  */
 class Asset extends Model
 {

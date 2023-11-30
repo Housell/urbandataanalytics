@@ -2,21 +2,21 @@
 
 This is a fast and secure integration for uDA Real Estate Data, S.L.
 
-This library allows to create and check applications thought the webservice.
+This library allows creating and checking applications thought the webservice.
 
-Check the documentation http://docs.api.urbandataanalytics.com/#introduction
+Check the documentation https://api.urbandataanalytics.com/
 
 ## Installation
 
 ### Composer
 
-To install the library you must execute the following code
+To install the library, you must execute the following code:
 
-    composer require dmorenof/urbandataanalytics dev-master
+    composer require housell/urbandataanalytics master
 
 ### Manual
 
-Download the library from https://github.com/dmorenof/urbandataanalytics
+Download the library from https://github.com/Housell/urbandataanalytics
 
 Include all the files from the "installation path/src"
 
@@ -70,7 +70,7 @@ The indicators to ask
 
 ### Basic Asset valuation
 
-To ask for the valuation of an Asset we need to send the asset and the indicators via the valuation function of the API
+To ask for the valuation of an Asset, we need to send the asset and the indicators via the valuation function of the API
 
 Example:
 
@@ -98,7 +98,7 @@ Returns Valuation
 
 ### Api::valuation(Asset $Asset, $portfolio_id, array $Indicators = null, $price_type = null)
 
-To ask for the valuation of an Asset we need to send the asset and the indicators via the valuation function of the API
+To ask for the valuation of an Asset, we need to send the asset and the indicators via the valuation function of the API
 
 * $Asset is the asset whe want to valuate
 * $portfolio_id the portfolio to save the valuation
@@ -111,7 +111,7 @@ Dynamically validates the objects and creates json objects from the public prope
 
 ## Object classes
 
-All the classes that extends from Model
+All the classes that extend from Model
 
 Every class has its own constants and public properties
 
@@ -122,7 +122,7 @@ Every class has its own constants and public properties
 
 ### Asset
 
-Mandatory properties  'area', 'lat', 'lon' and 'portfolio_id'
+Mandatory properties "area", "lat", "lon" and "portfolio_id"
 
     // operation
     const OPERATION_RENT = 0;
