@@ -4,7 +4,7 @@ This is a fast and secure integration for uDA Real Estate Data, S.L.
 
 This library allows creating and checking applications thought the webservice.
 
-Check the documentation https://api.urbandataanalytics.com/
+Check the documentation http://docs.api.urbandataanalytics.com/
 
 ## Installation
 
