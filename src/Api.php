@@ -34,7 +34,7 @@ class Api
             throw new Exception('Portfolio_id is mandatory');
         }
 
-        $url = 'https://reds.urbandataanalytics.com/assets/api/v2.0/portfolio/' . $portfolio_id . '/asset';
+        $url = 'https://reds.urbandataanalytics.com/assets/api/v1.0/portfolio/' . $portfolio_id . '/asset';
         $query_parameters = [];
 
         if (!empty($Indicators)) {
