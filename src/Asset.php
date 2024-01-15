@@ -349,6 +349,7 @@ class Asset extends Model
         'area',
         'lat',
         'lon',
+        'operation',
         'portfolio_id',
     ];
 }

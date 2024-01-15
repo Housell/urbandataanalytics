@@ -5,13 +5,13 @@ namespace UrbanDataAnalytics;
 /**
  * Class Indicator
  *
- * indicator (mandatory): string with indicator code. See supported values.
- * admin_level (mandatory): number with the administrative level code. See supported administrative divisions.
- * taxonomy (optional): string with taxonomy code. See supported taxonomies and categories. Currently, the only value supported for taxonomy is "P". If this is missing, the indicator returned won’t be segmented by any taxonomy. category is also supported instead of taxonomy for historical reasons, but may be deprecated in the future.
- * period (optional): string with period code. See supported periods. If missing, the latest available period will be used.
+ * Indicator (mandatory): string with indicator code. See supported values.
+ * Admin_level (mandatory): number with the administrative level code. See supported administrative divisions.
+ * Taxonomy (optional): string with taxonomy code. See supported taxonomies and categories. Currently, the only value supported for taxonomy is "P". If this is missing, the indicator returned won’t be segmented by any taxonomy. Category is also supported instead of taxonomy for historical reasons, but may be deprecated in the future.
+ * Period (optional): string with period code. See supported periods. If missing, the latest available period will be used.
  *
- * <code>
- * indicators
+ * <Code>
+ * indicators.
  *
  * Below are the real estate market indicators available so far:
  *
@@ -38,7 +38,7 @@ namespace UrbanDataAnalytics;
  * ---------------------------------------------------------------------------------------------------------------------
  *
  *
- * admin_levels
+ * Admin_levels
  *
  * ---------------------------------------------------------------------------------------------------------------------
  * | Code | Name
@@ -52,9 +52,9 @@ namespace UrbanDataAnalytics;
  * ---------------------------------------------------------------------------------------------------------------------
  *
  *
- * taxonomies
+ * Taxonomies.
  *
- * There’re several ways to classify a property:
+ * There are several ways to classify a property:
  *
  * According to its area, it can be “small”, “medium”, “big” or “huge”.
  * According to the number of rooms, it can be an “apartment”, a “house” or a “palace”.
@@ -88,7 +88,7 @@ namespace UrbanDataAnalytics;
  * Warning: Do not hard-code these values in your code. They may change at any time without any notice. If you need to get the category for one specific size, use Category by area endpoint.
  *
  *
- * periods
+ * Periods
  *
  * A period represents a range of dates with fixed and known length.
  *
@@ -106,23 +106,23 @@ namespace UrbanDataAnalytics;
 class Indicator extends Model
 {
     // indicators
-    const SALE_RENT_PERCENT = 's_p';
-    const SALE_RENT_UNITS = 's_u';
-    const SALE_RENT_DIFF_PREV_Q_PERCENT = 's_u_qq';
-    const SALE_RENT_DIFF_PREV_Q_PERCENTILE = 's_u_qq_rk';
-    const SOLD_RENTED_DIFF_PREV_Q_PERCENT = 'o_u_qq';
-    const SOLD_RENTED_DIFF_PREV_Q_PERCENTILE = 'o_u_qq_rk';
-    const NEW_STOCK_DIFF_PREV_Q_PERCENTILE = 'i_u_qq_rk';
-    const TOTAL_ABSORPTION_RATIO_PERCENT = 'o_a';
-    const AVG_PRICE = 'o_pm';
-    const AVG_PRICE_PER_METER = 'o_pu';
-    const AVG_PRICE_PRE_METER_DIFF_PREV_Q_PERCENT = 'o_pu_qq';
-    const ESTIMATED_TIME_TO_SELL_RENT = 's_t';
-    const ESTIMATED_TIME_TO_SELL_RENT_DIFF_PREV_Q_PERCENT = 's_t_qq';
-    const GROSS_RENT_PROFITABILITY = 'y_r';
-    const GROSS_SALE_PROFITABILITY = 'y_s';
-    const INVESTMENT_INDICATOR = 'r_g';
-    const NEGOTIATION_FACTOR = 's_fn';
+    const INDICATOR_SALE_RENT_PERCENT = 's_p';
+    const INDICATOR_SALE_RENT_UNITS = 's_u';
+    const INDICATOR_SALE_RENT_DIFF_PREV_Q_PERCENT = 's_u_qq';
+    const INDICATOR_SALE_RENT_DIFF_PREV_Q_PERCENTILE = 's_u_qq_rk';
+    const INDICATOR_SOLD_RENTED_DIFF_PREV_Q_PERCENT = 'o_u_qq';
+    const INDICATOR_SOLD_RENTED_DIFF_PREV_Q_PERCENTILE = 'o_u_qq_rk';
+    const INDICATOR_NEW_STOCK_DIFF_PREV_Q_PERCENTILE = 'i_u_qq_rk';
+    const INDICATOR_TOTAL_ABSORPTION_RATIO_PERCENT = 'o_a';
+    const INDICATOR_AVG_PRICE = 'o_pm';
+    const INDICATOR_AVG_PRICE_PER_METER = 'o_pu';
+    const INDICATOR_AVG_PRICE_PRE_METER_DIFF_PREV_Q_PERCENT = 'o_pu_qq';
+    const INDICATOR_ESTIMATED_TIME_TO_SELL_RENT = 's_t';
+    const INDICATOR_ESTIMATED_TIME_TO_SELL_RENT_DIFF_PREV_Q_PERCENT = 's_t_qq';
+    const INDICATOR_GROSS_RENT_PROFITABILITY = 'y_r';
+    const INDICATOR_GROSS_SALE_PROFITABILITY = 'y_s';
+    const INDICATOR_INVESTMENT_INDICATOR = 'r_g';
+    const INDICATOR_NEGOTIATION_FACTOR = 's_fn';
 
     // admin_levels
     const ADMIN_LEVEL_COUNTRY = 0;

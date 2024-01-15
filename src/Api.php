@@ -12,7 +12,7 @@ use stdClass;
 class Api
 {
     // Configuration
-    public $authorization_token = '';
+    private $authorization_token = '';
 
     // Registry
     public $call_url;
@@ -20,21 +20,24 @@ class Api
     public $raw_response;
     public $info;
 
+
+    public function __construct(string $authorization_token)
+    {
+        $this->authorization_token = $authorization_token;
+    }
+
     /**
      * @param Asset $Asset
-     * @param int $portfolio_id
      * @param Indicator[]|null $Indicators
      * @param null $price_type
      * @return Valuation
      * @throws Exception
      */
-    public function valuation(Asset $Asset, int $portfolio_id, array $Indicators = null, $price_type = null): Valuation
+    public function valuation(Asset $Asset, array $Indicators = null, $price_type = null): Valuation
     {
-        if (empty($portfolio_id)) {
-            throw new Exception('Portfolio_id is mandatory');
-        }
+        $Asset->validates();
 
-        $url = 'https://reds.urbandataanalytics.com/assets/api/v1.0/portfolio/' . $portfolio_id . '/asset';
+        $url = 'https://api.urbandataanalytics.com/assets/api/v2.0/portfolio/' . $Asset->portfolio_id . '/asset';
         $query_parameters = [];
 
         if (!empty($Indicators)) {
@@ -62,13 +65,8 @@ class Api
             $query_parameters['price_type'] = $price_type;
         }
 
-
-        $Asset->validates();
-
-        $response = $this->post($url, $query_parameters, (string)$Asset);
-
+        $response = $this->call($url, $query_parameters, (string)$Asset);
         $this->checkErrors($response);
-
         $Valuation = new Valuation();
         $Valuation->id = $response->id;
 
@@ -110,18 +108,6 @@ class Api
      * @return stdClass
      * @throws Exception
      */
-    private function post(string $url, array $query_parameters = [], string $post_data = null): stdClass
-    {
-        return $this->call($url, $query_parameters, $post_data);
-    }
-
-    /**
-     * @param string $url
-     * @param array $query_parameters
-     * @param string|null $post_data
-     * @return stdClass
-     * @throws Exception
-     */
     private function call(string $url, array $query_parameters = [], string $post_data = null): stdClass
     {
         if (!$url) {
@@ -140,7 +126,7 @@ class Api
             foreach ($query_parameters as $key => $value) {
                 $vars[] = implode('=', [
                     urlencode($key),
-                    urlencode($value)
+                    urlencode($value),
                 ]);
             }
 
@@ -206,36 +192,37 @@ class Api
         switch ($this->info['http_code']) {
             case 200:
             case 201:
-                break;
+            return;
 
             case 204:
                 $msg = 'No Content';
-                throw new Exception('HTTP Response (' . $this->info['http_code'] . '):' . PHP_EOL . $msg);
+                break;
 
             case 400:
                 $msg = 'Bad Request';
-                throw new Exception('HTTP Response (' . $this->info['http_code'] . '):' . PHP_EOL . $msg);
+                break;
 
             case 401:
                 $msg = 'Unauthorized';
-                throw new Exception('HTTP Response (' . $this->info['http_code'] . '):' . PHP_EOL . $msg);
+                break;
 
             case 404:
                 $msg = 'Not Found';
-                throw new Exception('HTTP Response (' . $this->info['http_code'] . '):' . PHP_EOL . $msg);
+                break;
 
             case 429:
                 $msg = 'Too Many Requests';
-                throw new Exception('HTTP Response (' . $this->info['http_code'] . '):' . PHP_EOL . $msg);
+                break;
 
             case 500:
                 $msg = 'Internal Server Error';
-                throw new Exception('HTTP Response (' . $this->info['http_code'] . '):' . PHP_EOL . $msg);
+                break;
 
             default:
                 $msg = 'Unexpected HTTP code';
-                throw new Exception('HTTP Response (' . $this->info['http_code'] . '):' . PHP_EOL . $msg);
         }
+
+        throw new Exception($this->call_url . PHP_EOL . 'HTTP Response (' . $this->info['http_code'] . '):' . PHP_EOL . $msg);
     }
 
     /**
@@ -294,13 +281,13 @@ class Api
 
     /**
      * Mode values:
-     * - local-only: the result is only searched in the uDA’s database. This mode is the fastest one.
-     * - remote-only: The source is the Property Registry Service.
-     * - local-first: first, the reference will be searched in the uDA’s database. If it’s not found, it will get the data from the Property Registry Service.
-     * - remote-first: first, the reference will be searched in the Property Registry Service. If it’s not found or an error occurs, it will get the data from the uDA’s database.
+     * - "local-only": the result is only searched in the uDA’s database. This mode is the fastest one.
+     * - "remote-only": The source is the Property Registry Service.
+     * - "local-first": first, the reference will be searched in the uDA’s database. If it’s not found, it will get the data from the Property Registry Service.
+     * - "remote-first": first, the reference will be searched in the Property Registry Service. If it’s not found or an error occurs, it will get the data from the uDA’s database.
      *
      * @param string $cadastre_reference
-     * @param string|null $mode
+     * @param "local-only"|"remote-only"|"local-first"|"remote-first"|null $mode
      * @return Cadastre
      * @throws Exception
      */
@@ -323,12 +310,9 @@ class Api
             throw new Exception('Invalid value fot $mode');
         }
 
-        $url = 'https://geo.reds.urbandataanalytics.com/geocoder/api/v2/cadastre/' . $cadastre_reference;
-
-        $response = $this->get($url, $mode ? ['mode' => $mode] : null);
-
+        $url = 'https://geo.reds.urbandataanalytics.com/geocoder/api/v1.0/cadastre/' . $cadastre_reference;
+        $response = $this->call($url, $mode ? ['mode' => $mode] : []);
         $this->checkErrors($response);
-
         $Cadastre = new Cadastre();
 
         foreach ($response as $key => $value) {
@@ -336,16 +320,5 @@ class Api
         }
 
         return $Cadastre;
-    }
-
-    /**
-     * @param string $url
-     * @param array $query_parameters
-     * @return stdClass
-     * @throws Exception
-     */
-    private function get(string $url, array $query_parameters = []): stdClass
-    {
-        return $this->call($url, $query_parameters);
     }
 }

@@ -4,7 +4,7 @@ This is a fast and secure integration for uDA Real Estate Data, S.L.
 
 This library allows creating and checking applications thought the webservice.
 
-Check the documentation https://api.urbandataanalytics.com/
+Check the documentation https://api.urbandataanalytics.com/docs
 
 ## Installation
 
@@ -42,8 +42,7 @@ To instance the API
 
     use UrbanDataAnalytics\Api;
 
-    $Api = new Api();
-    $Api->authorization_token = <YOUR_API_TOKEN>;
+    $Api = new Api($YOUR_API_TOKEN);
 
 ### Create an Asset
 
@@ -366,23 +365,23 @@ Mandatory properties "area", "lat", "lon" and "portfolio_id"
 Mandatory properties 'indicator' and 'admin_level'
 
     // indicators
-    const SALE_RENT_PERCENT = 's_p';
-    const SALE_RENT_UNITS = 's_u';
-    const SALE_RENT_DIFF_PREV_Q_PERCENT = 's_u_qq';
-    const SALE_RENT_DIFF_PREV_Q_PERCENTILE = 's_u_qq_rk';
-    const SOLD_RENTED_DIFF_PREV_Q_PERCENT = 'o_u_qq';
-    const SOLD_RENTED_DIFF_PREV_Q_PERCENTILE = 'o_u_qq_rk';
-    const NEW_STOCK_DIFF_PREV_Q_PERCENTILE = 'i_u_qq_rk';
-    const TOTAL_ABSORPTION_RATIO_PERCENT = 'o_a';
-    const AVG_PRICE = 'o_pm';
-    const AVG_PRICE_PER_METER = 'o_pu';
-    const AVG_PRICE_PRE_METER_DIFF_PREV_Q_PERCENT = 'o_pu_qq';
-    const ESTIMATED_TIME_TO_SELL_RENT = 's_t';
-    const ESTIMATED_TIME_TO_SELL_RENT_DIFF_PREV_Q_PERCENT = 's_t_qq';
-    const GROSS_RENT_PROFITABILITY = 'y_r';
-    const GROSS_SALE_PROFITABILITY = 'y_s';
-    const INVESTMENT_INDICATOR = 'r_g';
-    const NEGOTIATION_FACTOR = 's_fn';
+    const INDICATOR_SALE_RENT_PERCENT = 's_p';
+    const INDICATOR_SALE_RENT_UNITS = 's_u';
+    const INDICATOR_SALE_RENT_DIFF_PREV_Q_PERCENT = 's_u_qq';
+    const INDICATOR_SALE_RENT_DIFF_PREV_Q_PERCENTILE = 's_u_qq_rk';
+    const INDICATOR_SOLD_RENTED_DIFF_PREV_Q_PERCENT = 'o_u_qq';
+    const INDICATOR_SOLD_RENTED_DIFF_PREV_Q_PERCENTILE = 'o_u_qq_rk';
+    const INDICATOR_NEW_STOCK_DIFF_PREV_Q_PERCENTILE = 'i_u_qq_rk';
+    const INDICATOR_TOTAL_ABSORPTION_RATIO_PERCENT = 'o_a';
+    const INDICATOR_AVG_PRICE = 'o_pm';
+    const INDICATOR_AVG_PRICE_PER_METER = 'o_pu';
+    const INDICATOR_AVG_PRICE_PRE_METER_DIFF_PREV_Q_PERCENT = 'o_pu_qq';
+    const INDICATOR_ESTIMATED_TIME_TO_SELL_RENT = 's_t';
+    const INDICATOR_ESTIMATED_TIME_TO_SELL_RENT_DIFF_PREV_Q_PERCENT = 's_t_qq';
+    const INDICATOR_GROSS_RENT_PROFITABILITY = 'y_r';
+    const INDICATOR_GROSS_SALE_PROFITABILITY = 'y_s';
+    const INDICATOR_INVESTMENT_INDICATOR = 'r_g';
+    const INDICATOR_NEGOTIATION_FACTOR = 's_fn';
 
     // admin_levels
     const ADMIN_LEVEL_COUNTRY = 0;
